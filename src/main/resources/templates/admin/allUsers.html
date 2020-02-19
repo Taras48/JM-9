@@ -1,0 +1,236 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>AllUsers</title>
+</head>
+<body>
+<div class="container-fluid">
+
+    <!--Header-->
+    <div class="row bg-dark justify-content-between align-self-center">
+        <h3 class="ml-5 my-2 page-header text-light">Progect Name</h3>
+        <a class="mr-5 my-2 text-light" href="/logout">Logout</a>
+    </div>
+
+    <div class="row" style="height: 100vh;">
+        <!-- Nav bar-->
+        <div class="col-2 p-0 mt-3">
+
+            <ul class="nav nav-pills flex-column">
+                <li class="nav-item active">
+                    <a class="nav-link bg-info text-white rounded-0 " href="/admin">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-info rounded-0" href="/user">User</a>
+                </li>
+
+            </ul>
+        </div>
+
+
+        <!-- TABLE-->
+        <div class="col-10 p-5 pt-2 bg-light">
+
+            <h1 class="mb-3">Admin panel</h1>
+
+            <!-- nav table -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" href="#UserTable">User
+                        Table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" role="tab" href="#NewUser">New User</a>
+                </li>
+            </ul>
+
+            <!-- content table -->
+            <div class="tab-content" id="myTabContent">
+
+                <div id="UserTable" class="tab-pane show active" role="tabpanel">
+                    <table class="table table-striped" id="getUserTable">
+                        <h3 class="bg-gradient-secondary p-2 mb-0"> All Users</h3>
+                        <thead class="font-weight-bold">
+                        <td>Id</td>
+                        <td>Name</td>
+                        <td>Password</td>
+                        <td>Message</td>
+                        <td>Role</td>
+                        </thead>
+                        <tr th:each="user : ${list}">
+                            <td id="tableId" th:utext="${user.id}"></td>
+                            <td id="tableName" th:utext="${user.name}"></td>
+                            <td id="tablePass" th:utext="${user.password}"></td>
+                            <td id="tableMess" th:utext="${user.message}"></td>
+                            <td id="tableRole" th:utext="${user.roles}"></td>
+                            <td>
+                                <button id="editUserBtn" class="btn btn-sm btn-info" type="button" data-toggle="modal"
+                                        data-target="#editUser"
+                                        th:data-user="${user}">Edit
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="editUser">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Edit User Lorem ipsum</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+
+                                        <form action="/admin/update" method="post" id="updateUser" class="mx-auto"
+                                              style="width: 30%">
+                                            <div class="form-group">
+                                                <p class="font-weight-bold text-center">ID</p>
+                                                <input id="updateUserId" class="form-control col-xs-3"
+                                                       type="number"
+                                                       name="id" >
+                                            </div>
+                                            <div class="form-group col-xs-3">
+                                                <p class="font-weight-bold text-center">Name</p>
+                                                <input id="updateUserName" class="form-control " type="text"
+                                                       name="name" >
+                                            </div>
+
+                                            <div class="form-group col-xs-3">
+                                                <p class="font-weight-bold text-center">Role</p>
+                                                <select id="updateUserRole" class="form-control " type="text"
+                                                        name="role">
+                                                    <option value="user">user</option>
+                                                    <option value="admin">admin</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-xs-3">
+                                                <p class="font-weight-bold text-center">Message</p>
+                                                <input id="updateUserMess" class="form-control " type="text"
+                                                       name="message">
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-sm btn-secondary"
+                                                data-dismiss="modal">
+                                            Закрыть
+                                        </button>
+                                        <button id="updateFormUser" form="updateUser" type="submit"
+                                                class="btn btn-sm btn-info">Edit
+                                            user
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Modal -->
+
+
+                    </table>
+                </div>
+
+                <!-- ADD USER-->
+
+                <div id="NewUser" class="tab-pane fade " role="tabpanel">
+                    <h3 class="bg-gradient-secondary p-2 mb-0"> Add new user</h3>
+                    <form action="/admin/add" method="post" id="addForm" class="mx-auto" style="width: 30%">
+
+                        <div class="form-group col-xs-3">
+                            <p class="font-weight-bold text-center">Name</p>
+                            <input class="form-control" type="text" name="name" id="addName" placeholder="name">
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <p class="font-weight-bold text-center">Password</p>
+                            <input class="form-control" type="text" name="password" id="addPassword"
+                                   placeholder="password">
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <p class="font-weight-bold text-center">Role</p>
+                            <select class="form-control" type="text" name="role" id="addRole" placeholder="role">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xs-3">
+                            <p class="font-weight-bold text-center">Message</p>
+                            <input class="form-control" type="text" name="message" id="addMessage"
+                                   placeholder="message">
+                        </div>
+                        <button type="submit" class="btn btn-sm btn-success center-block" id="addFormUser">Add user
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- Bootstrap-4 -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("tr td .btn").click(function () {
+
+            $("#updateUserId").val($(this).closest("tr").find("#tableId").text());
+            $("#updateUserId").prop("disabled", true);
+
+            $("#updateUserName").val($(this).closest("tr").find("#tableName").text());
+
+            $("#updateUserPass").hide();
+            $("#updateUserPass").val($(this).closest("tr").find("#tablePass").text());
+
+            var role = $(this).closest("tr").find("#tableRole").text();
+            var rol = role.substring(1, role.length - 1).toString();
+            var admin = "admin";
+            if (rol == admin) {
+                $('#updateUserRole option:contains("admin")').prop("selected", true);
+            } else {
+                $('#updateUserRole option:contains("user")').prop("selected", true);
+            }
+
+            $("#updateUserMess").val($(this).closest("tr").find("#tableMess").text());
+
+
+
+        });
+    });
+</script>
+
+
+</body>
+</html>
