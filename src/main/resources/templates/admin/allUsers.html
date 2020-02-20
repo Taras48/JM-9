@@ -75,7 +75,7 @@
                             <td>
                                 <button id="editUserBtn" class="btn btn-sm btn-info" type="button" data-toggle="modal"
                                         data-target="#editUser"
-                                        th:data-user="${user}">Edit
+                                        >Edit
                                 </button>
                             </td>
                         </tr>
@@ -99,9 +99,17 @@
                                               style="width: 30%">
                                             <div class="form-group">
                                                 <p class="font-weight-bold text-center">ID</p>
-                                                <input id="updateUserId" class="form-control col-xs-3"
+                                                <input id="updateUserId" class="form-control col-xs-3 "
                                                        type="number"
                                                        name="id" >
+                                                <input id="userId" class="form-control col-xs-3 "
+                                                       type="number"
+                                                       name="id" >
+                                            </div>
+                                            <div class="form-group col-xs-3">
+
+                                                <input id="updateUserPass" class="form-control " type="text"
+                                                       name="password">
                                             </div>
                                             <div class="form-group col-xs-3">
                                                 <p class="font-weight-bold text-center">Name</p>
@@ -208,6 +216,9 @@
 
             $("#updateUserId").val($(this).closest("tr").find("#tableId").text());
             $("#updateUserId").prop("disabled", true);
+
+            $("#userId").val($(this).closest("tr").find("#tableId").text());
+            $("#userId").hide();
 
             $("#updateUserName").val($(this).closest("tr").find("#tableName").text());
 
